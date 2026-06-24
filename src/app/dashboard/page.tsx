@@ -23,8 +23,8 @@ type Lead = {
 };
 
 const INITIAL_LEADS: Lead[] = [
-  { id: "mock1", name_masked: "R**** S****", phone_masked: "+91 98*** *****", intent: "Buy", location: "Andheri West, Mumbai", budget: "₹1 Cr - ₹3 Cr", score: "HOT", score_value: 85, ai_explanation: "High budget + Active buyer", is_unlocked: false, time: "10 mins ago" },
-  { id: "mock2", name_masked: "S**** D****", phone_masked: "+91 99*** *****", intent: "Sell", location: "Powai, Mumbai", budget: "₹3 Cr+", score: "WARM", score_value: 65, ai_explanation: "High budget seller + Low urgency", is_unlocked: false, time: "1 hour ago" },
+  { id: "mock1", name_masked: "R**** S****", phone_masked: "+91 98*** *****", intent: "Buy", property_type: "Residential Flat", location: "Andheri West, Mumbai", budget: "₹1 Cr - ₹3 Cr", score: "HOT", score_value: 85, ai_explanation: "High budget + Active buyer", is_unlocked: false, time: "10 mins ago" },
+  { id: "mock2", name_masked: "S**** D****", phone_masked: "+91 99*** *****", intent: "Sell", property_type: "Independent House", location: "Powai, Mumbai", budget: "₹3 Cr+", score: "WARM", score_value: 65, ai_explanation: "High budget seller + Low urgency", is_unlocked: false, time: "1 hour ago" },
 ];
 
 export default function Dashboard() {
