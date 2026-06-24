@@ -19,6 +19,7 @@ CREATE TABLE public.leads (
     name TEXT NOT NULL,
     phone TEXT NOT NULL UNIQUE, -- Prevents duplicate leads
     intent TEXT NOT NULL CHECK (intent IN ('Buy', 'Sell')),
+    property_type TEXT NOT NULL DEFAULT 'Not Specified',
     location TEXT NOT NULL,
     budget TEXT NOT NULL,
     score TEXT NOT NULL CHECK (score IN ('HOT', 'WARM', 'COLD')),
@@ -67,6 +68,7 @@ CREATE OR REPLACE VIEW public.marketplace_leads AS
 SELECT 
     l.id,
     l.intent,
+    l.property_type,
     l.location,
     l.budget,
     l.score,

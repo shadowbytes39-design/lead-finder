@@ -20,7 +20,8 @@ export default function LandingPage() {
     name: "",
     phone: "",
     location: "",
-    budget: ""
+    budget: "50l_1cr",
+    propertyType: "Residential Flat"
   });
 
   const handleSendOtp = () => {
@@ -48,6 +49,7 @@ export default function LandingPage() {
             name: formData.name,
             phone: formData.phone,
             intent: intent,
+            propertyType: formData.propertyType,
             location: formData.location,
             budget: formData.budget
           })
@@ -222,20 +224,41 @@ export default function LandingPage() {
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-white/80 pl-1">Preferred Location</label>
-                    <div className="relative">
-                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
-                      <input 
-                        required 
-                        type="text" 
-                        placeholder="e.g. Bandra West, Mumbai" 
-                        value={formData.location}
-                        onChange={(e) => setFormData({...formData, location: e.target.value})}
-                        className="w-full bg-black/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all" 
-                      />
-                    </div>
+              {/* Location & Property Type Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-white/70 mb-2">Preferred Location</label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                    <input 
+                      type="text" 
+                      required
+                      placeholder="e.g. Bandra West, Mumbai"
+                      value={formData.location}
+                      onChange={(e) => setFormData({...formData, location: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-10 py-3 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    />
                   </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/70 mb-2">Property Type</label>
+                  <div className="relative">
+                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                    <select
+                      value={formData.propertyType}
+                      onChange={(e) => setFormData({...formData, propertyType: e.target.value})}
+                      className="w-full bg-[#18181b] border border-white/10 rounded-xl px-10 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all appearance-none"
+                    >
+                      <option value="Residential Flat">Residential Flat</option>
+                      <option value="Independent House / Villa">Independent House / Villa</option>
+                      <option value="Plot / Land">Plot / Land</option>
+                      <option value="Commercial Space">Commercial Space</option>
+                      <option value="Farmhouse">Farmhouse</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/80 pl-1">Estimated Budget</label>

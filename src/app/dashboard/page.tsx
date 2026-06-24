@@ -12,6 +12,7 @@ type Lead = {
   name_masked: string;
   phone_masked: string;
   intent: "Buy" | "Sell";
+  property_type: string;
   location: string;
   budget: string;
   score: "HOT" | "WARM" | "COLD";
@@ -44,6 +45,7 @@ export default function Dashboard() {
             name_masked: d.name_masked,
             phone_masked: d.phone_masked,
             intent: d.intent,
+            property_type: d.property_type || 'Residential',
             location: d.location,
             budget: d.budget.replace(/_/g, ' ').toUpperCase(),
             score: d.score,
@@ -70,6 +72,7 @@ export default function Dashboard() {
                       name_masked: newLead.name_masked,
                       phone_masked: newLead.phone_masked,
                       intent: newLead.intent,
+                      property_type: newLead.property_type || 'Residential',
                       location: newLead.location,
                       budget: newLead.budget.replace(/_/g, ' ').toUpperCase(),
                       score: newLead.score,
@@ -228,26 +231,37 @@ export default function Dashboard() {
                         {lead.intent}
                       </span>
                     </td>
-                    <td className="p-4 align-top">
-                      <div className="flex items-center gap-2 text-sm font-medium text-white mb-1">
-                        <MapPin className="w-3.5 h-3.5 text-white/40" /> {lead.location}
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <IndianRupee className="w-3.5 h-3.5 text-white/40" /> {lead.budget}
+                    {/* Location & Budget */}
+                    <td className="py-6 px-6">
+                      <div className="flex flex-col gap-1.5">
+                        <div className="font-bold text-white flex items-center gap-1.5 text-sm">
+                          <MapPin className="w-3.5 h-3.5 text-white/40" /> {lead.location}
+                        </div>
+                        <div className="text-white/60 font-mono text-sm flex items-center gap-1.5">
+                          <Building2 className="w-3.5 h-3.5 text-white/40" /> {lead.property_type}
+                        </div>
+                        <div className="text-emerald-400 font-mono text-sm flex items-center gap-1.5 bg-emerald-500/10 w-fit px-2 py-0.5 rounded">
+                          <IndianRupee className="w-3.5 h-3.5" /> {lead.budget}
+                        </div>
                       </div>
                     </td>
+                    {/* AI Score Column */}
                     <td className="py-6 px-6 relative group">
-                      <div className="flex items-center gap-2">
-                        {lead.score === "HOT" && <Zap className="w-4 h-4 text-orange-400" />}
-                        {lead.score === "WARM" && <Thermometer className="w-4 h-4 text-yellow-400" />}
+                      <div className="flex items-center gap-3">
                         <span className={cn(
-                          "font-bold text-sm tracking-widest px-3 py-1 rounded-full border",
+                          "font-bold text-sm tracking-widest px-3 py-1 rounded-full border flex items-center gap-1.5",
                           lead.score === "HOT" ? "bg-orange-500/10 text-orange-400 border-orange-500/20" : "",
                           lead.score === "WARM" ? "bg-yellow-500/10 text-yellow-400 border-yellow-500/20" : "",
                           lead.score === "COLD" ? "bg-blue-500/10 text-blue-400 border-blue-500/20" : ""
                         )}>
+                          {lead.score === "HOT" && <Zap className="w-3.5 h-3.5" />}
+                          {lead.score === "WARM" && <Thermometer className="w-3.5 h-3.5" />}
                           {lead.score}
                         </span>
+                        <div className="flex flex-col">
+                          <span className="text-white font-mono text-lg font-bold leading-none">{lead.score_value || 50}</span>
+                          <span className="text-[10px] text-white/40 uppercase tracking-widest">/100</span>
+                        </div>
                       </div>
 
                       {/* AI Explanation Tooltip */}
@@ -292,13 +306,38 @@ export default function Dashboard() {
                   </tr>
                 );
               })}
+
+              {/* 450+ Blurred Urgent Leads */}
+              {!isLoading && leads.length > 0 && [1, 2, 3].map((n) => (
+                <tr key={`dummy-${n}`} className="border-t border-white/5 bg-black/40 opacity-40 hover:opacity-60 transition-opacity select-none">
+                  <td className="py-4 px-6">
+                    <span className="bg-white/10 text-white/50 text-xs font-bold px-3 py-1.5 rounded-full uppercase">Hidden</span>
+                  </td>
+                  <td className="py-4 px-6 blur-sm">
+                    <div className="font-bold text-white text-sm mb-1"><MapPin className="w-3.5 h-3.5 inline text-white/40" /> Premium Area</div>
+                    <div className="text-emerald-400 font-mono text-sm bg-emerald-500/10 w-fit px-2 py-0.5 rounded">₹2 Cr - ₹5 Cr</div>
+                  </td>
+                  <td className="py-4 px-6 blur-sm">
+                    <span className="font-bold text-sm tracking-widest px-3 py-1 rounded-full border bg-orange-500/10 text-orange-400 border-orange-500/20">HOT</span>
+                  </td>
+                  <td className="py-4 px-6 text-sm text-white/20">2 hrs ago</td>
+                  <td className="py-4 px-6 text-right">
+                    <button disabled className="bg-white/5 border border-white/10 text-white/30 font-bold px-6 py-2.5 rounded-xl text-sm flex items-center gap-2 ml-auto">
+                      <Lock className="w-4 h-4" /> Locked
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
           
-          {/* Faded bottom to indicate more leads */}
-          <div className="h-16 bg-gradient-to-t from-black to-transparent w-full border-t border-white/5 flex items-center justify-center">
-            <span className="text-sm text-white/40 font-medium">Upgrade to view 450+ more local leads</span>
-          </div>
+          {!isLoading && leads.length > 0 && (
+            <div className="p-4 border-t border-white/5 bg-gradient-to-t from-black/80 to-transparent flex justify-center">
+              <span className="text-sm font-medium text-white/50 hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+                Upgrade to view 450+ more local leads <ArrowRight className="w-4 h-4" />
+              </span>
+            </div>
+          )}
         </div>
 
       </main>
