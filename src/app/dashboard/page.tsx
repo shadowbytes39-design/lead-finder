@@ -38,6 +38,18 @@ export default function Dashboard() {
 
     const fetchLeads = async () => {
       if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://dummy.supabase.co') {
+        // Fetch Real Credits
+        const { data: authData } = await supabase.auth.getUser();
+        if (authData.user) {
+          const { data: agentData } = await supabase.from('agents').select('credits').eq('id', authData.user.id).single();
+          if (agentData) {
+            setCredits(agentData.credits);
+          } else {
+            setCredits(0); // No agent profile exists yet
+          }
+        }
+
+        // Fetch Leads
         const { data, error } = await supabase.from('marketplace_leads').select('*').order('created_at', { ascending: false });
         if (!error && data) {
           const formattedLeads = data.map((d: any) => ({
