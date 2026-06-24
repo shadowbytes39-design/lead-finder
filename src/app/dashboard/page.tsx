@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Building2, Coins, Search, Lock, Unlock, Zap, Thermometer, MapPin, IndianRupee, Bell, CheckCircle2 } from "lucide-react";
+import { Building2, Coins, Search, Lock, Unlock, Zap, Thermometer, MapPin, IndianRupee, Bell, CheckCircle2, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
