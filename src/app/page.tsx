@@ -19,7 +19,8 @@ export default function LandingPage() {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    location: "",
+    city: "",
+    locality: "",
     budget: "50l_1cr",
     propertyType: "Residential Flat"
   });
@@ -50,7 +51,7 @@ export default function LandingPage() {
             phone: formData.phone,
             intent: intent,
             propertyType: formData.propertyType,
-            location: formData.location,
+            location: `${formData.locality}, ${formData.city}`,
             budget: formData.budget
           })
         });
@@ -227,21 +228,36 @@ export default function LandingPage() {
               {/* Location & Property Type Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-2">Preferred Location</label>
+                  <label className="block text-sm font-medium text-white/70 mb-2">City</label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
                     <input 
                       type="text" 
                       required
-                      placeholder="e.g. Bandra West, Mumbai"
-                      value={formData.location}
-                      onChange={(e) => setFormData({...formData, location: e.target.value})}
+                      placeholder="e.g. Agra, Mumbai"
+                      value={formData.city}
+                      onChange={(e) => setFormData({...formData, city: e.target.value})}
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-10 py-3 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                     />
                   </div>
                 </div>
 
                 <div>
+                  <label className="block text-sm font-medium text-white/70 mb-2">Exact Locality / Area</label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary/40" />
+                    <input 
+                      type="text" 
+                      required
+                      placeholder="e.g. Sanjay Place, Sikandra"
+                      value={formData.locality}
+                      onChange={(e) => setFormData({...formData, locality: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-10 py-3 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-white/70 mb-2">Property Type</label>
                   <div className="relative">
                     <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
