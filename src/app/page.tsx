@@ -19,6 +19,8 @@ export default function LandingPage() {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
+    email: "",
+    currentAddress: "",
     city: "",
     locality: "",
     budget: "50l_1cr",
@@ -49,6 +51,8 @@ export default function LandingPage() {
           body: JSON.stringify({
             name: formData.name,
             phone: formData.phone,
+            email: formData.email,
+            currentAddress: formData.currentAddress,
             intent: intent,
             propertyType: formData.propertyType,
             location: `${formData.locality}, ${formData.city}`,

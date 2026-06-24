@@ -4,7 +4,7 @@ import { supabase, generateLeadScore } from '@/lib/supabase';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, phone, intent, propertyType, location, budget } = body;
+    const { name, phone, email, currentAddress, intent, propertyType, location, budget } = body;
 
     if (!name || !phone || !intent || !location || !budget) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -18,6 +18,8 @@ export async function POST(req: Request) {
       {
         name,
         phone,
+        email: email || null,
+        current_address: currentAddress || null,
         intent: intent === "buy" ? "Buy" : "Sell",
         property_type: propertyType || 'Not Specified',
         location,

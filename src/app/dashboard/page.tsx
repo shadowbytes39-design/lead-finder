@@ -11,6 +11,8 @@ type Lead = {
   id: string;
   name_masked: string;
   phone_masked: string;
+  email_masked: string;
+  address_masked: string;
   intent: "Buy" | "Sell";
   property_type: string;
   location: string;
@@ -23,8 +25,8 @@ type Lead = {
 };
 
 const INITIAL_LEADS: Lead[] = [
-  { id: "mock1", name_masked: "R**** S****", phone_masked: "+91 98*** *****", intent: "Buy", property_type: "Residential Flat", location: "Andheri West, Mumbai", budget: "₹1 Cr - ₹3 Cr", score: "HOT", score_value: 85, ai_explanation: "High budget + Active buyer", is_unlocked: false, time: "10 mins ago" },
-  { id: "mock2", name_masked: "S**** D****", phone_masked: "+91 99*** *****", intent: "Sell", property_type: "Independent House", location: "Powai, Mumbai", budget: "₹3 Cr+", score: "WARM", score_value: 65, ai_explanation: "High budget seller + Low urgency", is_unlocked: false, time: "1 hour ago" },
+  { id: "mock1", name_masked: "R**** S****", phone_masked: "+91 98*** *****", email_masked: "****@****.com", address_masked: "Address Hidden", intent: "Buy", property_type: "Residential Flat", location: "Andheri West, Mumbai", budget: "₹1 Cr - ₹3 Cr", score: "HOT", score_value: 85, ai_explanation: "High budget + Active buyer", is_unlocked: false, time: "10 mins ago" },
+  { id: "mock2", name_masked: "S**** D****", phone_masked: "+91 99*** *****", email_masked: "****@****.com", address_masked: "Address Hidden", intent: "Sell", property_type: "Independent House", location: "Powai, Mumbai", budget: "₹3 Cr+", score: "WARM", score_value: 65, ai_explanation: "High budget seller + Low urgency", is_unlocked: false, time: "1 hour ago" },
 ];
 
 export default function Dashboard() {
@@ -56,6 +58,8 @@ export default function Dashboard() {
             id: d.id,
             name_masked: d.name_masked,
             phone_masked: d.phone_masked,
+            email_masked: d.email_masked || '****@****.com',
+            address_masked: d.address_masked || 'Address Hidden',
             intent: d.intent,
             property_type: d.property_type || 'Residential',
             location: d.location,
@@ -83,6 +87,8 @@ export default function Dashboard() {
                       id: newLead.id,
                       name_masked: newLead.name_masked,
                       phone_masked: newLead.phone_masked,
+                      email_masked: newLead.email_masked || '****@****.com',
+                      address_masked: newLead.address_masked || 'Address Hidden',
                       intent: newLead.intent,
                       property_type: newLead.property_type || 'Residential',
                       location: newLead.location,

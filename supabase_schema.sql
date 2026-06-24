@@ -18,6 +18,8 @@ CREATE TABLE public.leads (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     name TEXT NOT NULL,
     phone TEXT NOT NULL UNIQUE, -- Prevents duplicate leads
+    email TEXT, -- Optional contact email
+    current_address TEXT, -- Optional current residing address
     intent TEXT NOT NULL CHECK (intent IN ('Buy', 'Sell')),
     property_type TEXT NOT NULL DEFAULT 'Not Specified',
     location TEXT NOT NULL,
@@ -93,7 +95,21 @@ SELECT
             WHERE al.lead_id = l.id AND al.agent_id = auth.uid()
         ) THEN l.phone 
         ELSE '+91 98*** *****'
-    END as phone_masked
+    END as phone_masked,
+    CASE 
+        WHEN EXISTS (
+            SELECT 1 FROM public.agent_leads al 
+            WHERE al.lead_id = l.id AND al.agent_id = auth.uid()
+        ) THEN l.email 
+        ELSE '****@****.com'
+    END as email_masked,
+    CASE 
+        WHEN EXISTS (
+            SELECT 1 FROM public.agent_leads al 
+            WHERE al.lead_id = l.id AND al.agent_id = auth.uid()
+        ) THEN l.current_address 
+        ELSE 'Address Hidden'
+    END as address_masked
 FROM public.leads l
 WHERE l.is_test = false; -- Never show test leads in production marketplace
 
